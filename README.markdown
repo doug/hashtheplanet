@@ -17,21 +17,21 @@ It is all backed by App Engine and Memcache.
 
 ### Read Data
 
-    curl -X GET http://hashtheplanet.com/myhash
+    curl -X GET http://www.hashtheplanet.com/myhash
 
 ### Set Data
 
-    curl -X POST http://hashtheplanet.com?secret=mysecret&value=myvalue
+    curl -X POST http://www.hashtheplanet.com/myhash?secret=mysecret&value=myvalue
 
 ### Delete Data
 
-    curl -X DELETE http://hashtheplanet.com?secret=mysecret
+    curl -X DELETE http://www.hashtheplanet.com/myhash?secret=mysecret
 
 ### Extras
 
 For convenience a read call with a secret acts as a post to set the data.
 
-    curl -X GET http://hashtheplanet.com?secret=mysecret&value=myvalue === curl -X POST http://hashtheplanet.com?secret=mysecret&value=myvalue
+    curl -X GET http://www.hashtheplanet.com/myhash?secret=mysecret&value=myvalue === curl -X POST http://www.hashtheplanet.com/myhash?secret=mysecret&value=myvalue
 
 This is so you can just do it from the browser window.
 
