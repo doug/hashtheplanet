@@ -5,16 +5,46 @@
   <title>Hash the Planet</title>
 </head>
 <body>
-<h1>Hash the Planet</h1>
-<p>
-  A simple tool for storing arbitrary data in a central location. Mostly for temporary use.
-</p>
-<p>
-  here is the source: <a href=""></a>
-  If you use it a lot run your own on app engine.
-</p>
-<p>
-  It is all backed by App Engine and Memcache.
-</p>
+<h1>Hash The Planet</h1>
+
+<p>A simple tool for storing arbitrary data in a central location. Mostly for temporary use.</p>
+
+<p>here is the source: <a href="http://github.com/doug/hashtheplanet">http://github.com/doug/hashtheplanet</a>
+If you use it a lot run your own on app engine as I only have so many memcache calls.</p>
+
+<p>This is not intended to be a frontend to memcache, this is for config files that I want to be able to access.
+Or being able to post the temporary ip address of something I'm configuring. Or sharing some snipppet with a friend for
+only a short while. Some global hash to some arbitrary transient value.
+The content can be any string including html if you want if formated when returned, but probably something like json is
+a good choice.</p>
+
+<p>It is all backed by App Engine and Memcache.</p>
+
+<h2>Examples</h2>
+
+<h3>Read Data</h3>
+
+<pre><code>curl -X GET http://hashtheplanet.com/myhash
+</code></pre>
+
+<h3>Set Data</h3>
+
+<pre><code>curl -X POST http://hashtheplanet.com?secret=mysecret&amp;value=myvalue
+</code></pre>
+
+<h3>Delete Data</h3>
+
+<pre><code>curl -X DELETE http://hashtheplanet.com?secret=mysecret
+</code></pre>
+
+<h3>Extras</h3>
+
+<p>For convenience a read call with a secret acts as a post to set the data.</p>
+
+<pre><code>curl -X GET http://hashtheplanet.com?secret=mysecret&amp;value=myvalue === curl -X POST http://hashtheplanet.com?secret=mysecret&amp;value=myvalue
+</code></pre>
+
+<p>This is so you can just do it from the browser window.</p>
+
 </body>
 </html>

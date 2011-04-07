@@ -7,7 +7,9 @@ If you use it a lot run your own on app engine as I only have so many memcache c
 
 This is not intended to be a frontend to memcache, this is for config files that I want to be able to access.
 Or being able to post the temporary ip address of something I'm configuring. Or sharing some snipppet with a friend for
-only a short while. The content could be html if you wanted it to be.
+only a short while. Some global hash to some arbitrary transient value.
+The content can be any string including html if you want if formated when returned, but probably something like json is
+a good choice.
 
 It is all backed by App Engine and Memcache.
 
@@ -15,19 +17,21 @@ It is all backed by App Engine and Memcache.
 
 ### Read Data
 
-  curl -X GET http://hashtheplanet.com/myhash
+    curl -X GET http://hashtheplanet.com/myhash
 
 ### Set Data
 
-  curl -X POST http://hashtheplanet.com?secret=mysecret&value=myvalue
+    curl -X POST http://hashtheplanet.com?secret=mysecret&value=myvalue
 
 ### Delete Data
 
-  curl -X DELETE http://hashtheplanet.com?secret=mysecret
+    curl -X DELETE http://hashtheplanet.com?secret=mysecret
 
-### Convience
-for convience a read call with a secret acts as a post to set the data
+### Extras
 
-  curl -X GET http://hashtheplanet.com?secret=mysecret&value=myvalue
+For convenience a read call with a secret acts as a post to set the data.
 
-this is so you can just do it from the browser window
+    curl -X GET http://hashtheplanet.com?secret=mysecret&value=myvalue === curl -X POST http://hashtheplanet.com?secret=mysecret&value=myvalue
+
+This is so you can just do it from the browser window.
+
