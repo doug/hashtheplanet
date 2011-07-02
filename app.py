@@ -3,13 +3,29 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 import re
 import simplejson as json
+import functools
 
 alphanumeric = re.compile('^[a-zA-Z0-9]+$')
 SUCCESS = 'success'
 FAILURE = 'failure'
 TIME = 1*60*60*24 # expire in a day by default
 
+def jsonp(method):
+  @functools.wraps(method)
+  def wrapper(self, *args, **kwargs):
+    callback = self.request.get('callback')
+    if callback:
+      self.response.out.write('%s('%(callback,))
+      method(self, *args, **kwargs)
+      self.response.out.write(');')
+      self.response.headers['Content-Type'] = 'text/javascript'
+    else:
+      method(self, *args, **kwargs)
+  return wrapper
+
+
 class HashThePlanet(webapp.RequestHandler):
+  @jsonp
   def get(self, hash):
     rsecret = self.request.get('secret')
     if rsecret:
@@ -21,6 +37,7 @@ class HashThePlanet(webapp.RequestHandler):
         if value:
           self.response.out.write(value)
 
+  @jsonp
   def post(self, hash):
     result = {}
     rsecret = self.request.get('secret')
@@ -53,6 +70,7 @@ class HashThePlanet(webapp.RequestHandler):
         result['status'] = SUCCESS
     json.dump(result, self.response.out)
 
+  @jsonp
   def delete(self, hash):
     result = {}
     rsecret = self.request.get('secret')
